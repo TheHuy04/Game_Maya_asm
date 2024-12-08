@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerAttack : MonoBehaviour
 {
+    private AudioManager audiomanager;
     public GameObject enemyDeathEffect; 
     private bool isDead = false;
     public Text scoreText;
@@ -15,6 +16,10 @@ public class PlayerAttack : MonoBehaviour
     {
         UpdateScoreUI();
     }
+    private void Awake()
+    {
+        audiomanager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
 
     private void OnCollisionEnter(Collision collision)
@@ -22,6 +27,7 @@ public class PlayerAttack : MonoBehaviour
         
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            audiomanager.PlaySFX(audiomanager.attackClip);
             KillEnemy(collision.gameObject);
             AddScore(1);
         }
